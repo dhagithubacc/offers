@@ -48,9 +48,9 @@ public class OffersDao {
 				logger.debug("Outside getOffers");
 				return offer;
 			}
-			
+
 		});
-		
+
 	}
 
 	public boolean update(Offer offer) {
@@ -66,8 +66,7 @@ public class OffersDao {
 		BeanPropertySqlParameterSource params = new BeanPropertySqlParameterSource(offer);
 		logger.debug("Ouside  create Offer");
 		return jdbc.update("insert into offers (name, text, email) values (:name, :text, :email)", params) == 1;
-		
-	
+
 	}
 
 	@Transactional

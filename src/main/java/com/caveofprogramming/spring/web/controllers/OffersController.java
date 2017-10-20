@@ -1,11 +1,10 @@
 package com.caveofprogramming.spring.web.controllers;
 
 import java.util.List;
-import java.util.Map;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,7 +18,7 @@ import com.caveofprogramming.spring.web.service.OffersService;
  *
  */
 @RestController
-@RequestMapping("/offers")
+@RequestMapping(value = "/offers")
 public class OffersController {
 	Logger logger = LoggerFactory.getLogger(OffersController.class);
 	private OffersService offersService;
@@ -30,17 +29,22 @@ public class OffersController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
+	// @ResponseBody
 	public List<Offer> showOffers() {
+		logger.debug("Inside OffersController showOffers ");
 		List<Offer> offers = offersService.getCurrent();
+		logger.debug("Outside OffersController showOffers " + offers.size());
+		logger.debug("Outside OffersController showOffers " + offers);
 		return offers;
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public String create(@RequestBody Map<String, String> params) {
-		logger.debug("created");
-		Offer offer = new Offer(params.get("name"), params.get("email"), params.get("text"));
-		offersService.create(offer);
+	public String create(@RequestBody Offer offerForm) {
+		logger.debug("create Offer");
+		offersService.create(offerForm);
 		logger.debug("After Offer Service");
-		return "Created :" + offer.getId();
+
+		return "Created :" + offerForm.getId();
 	}
+
 }
